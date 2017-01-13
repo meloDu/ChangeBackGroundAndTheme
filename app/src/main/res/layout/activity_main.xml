@@ -5,18 +5,28 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.rmtd.herry.headbackground.MainActivity">
+
     <ImageView
         android:id="@+id/image_head_background"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop">
     </ImageView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="#88353535">
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_changetheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/buttonBg"
+        android:text="更换主题"
+        android:textColor="?attr/buttonTextColor"/>
 </RelativeLayout>
