@@ -18,6 +18,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView mImageView;
+    Button mButton;
     PopupWindow mPopupWindow;
     RelativeLayout layout;
     RelativeLayout selectPhoto, takePhoto;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int CROP_REQUEST_CODE = 3;//裁剪
     int width;  //  屏幕宽度
     int hight;  //屏幕高度
+    boolean flag;
 
     //拍照图片名称
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeChangeUtil.changeTheme(this);
+
         setContentView(R.layout.activity_main);
         //获取屏幕宽，高
         Display display = this.getWindowManager().getDefaultDisplay();
@@ -92,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initview() {
         layout = (RelativeLayout) findViewById(R.id.activity_main);
         mImageView = (ImageView) findViewById(R.id.image_head_background);
+        mButton = (Button) findViewById(R.id.btn_changetheme);
+        mButton.setOnClickListener(this);
         mImageView.setOnClickListener(this);
         getBitmapFromSharedPreferences();
     }
@@ -111,14 +118,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (data != null) {
                 // 得到图片的全路径
                 Uri uri = data.getData();
-                Log.d("tag","~~~~");
+                Log.d("tag", "~~~~");
                 crop(uri);
             }
         } else if (requestCode == CROP_REQUEST_CODE) {
             // 从剪切图片返回的数据
             if (data != null) {
                 Bitmap bitmap = data.getParcelableExtra("data");
-                 // 获得图片
+                // 获得图片
                 mImageView.setImageBitmap(bitmap);
                 //保存到SharedPreferences
                 saveBitmapToSharedPreferences(bitmap);
@@ -139,6 +146,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mPopupWindow.dismiss();
         }
         switch (v.getId()) {
+            case R.id.btn_changetheme:
+                //更换主题
+                if (ThemeChangeUtil.isChange) {
+                    ThemeChangeUtil.isChange = false;
+                } else {
+                    ThemeChangeUtil.isChange = true;
+                }
+                this.recreate();//重新创建当前Activity实例
+
+                break;
             case R.id.image_head_background:
                 //换背景 颜色变暗
                 mPopupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
